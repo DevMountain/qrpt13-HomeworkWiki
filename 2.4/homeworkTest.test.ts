@@ -64,6 +64,7 @@ describe("Employee Manager 1.2", () => {
         await driver.wait(
             until.elementTextContains(
             await driver.findElement(nameDisplay),
+            //? why name display instead of name input?
             "Bernice"
             )
         );
