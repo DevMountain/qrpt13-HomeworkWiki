@@ -29,6 +29,7 @@ const errorCard: By = By.css(".errorCard");
 describe("Employee Manager 1.2", () => {
 
     beforeEach(async () => {
+        //?what is a beforeEach loop?
         await driver.get(
         "https://devmountain-qa.github.io/employee-manager/1.2_Version/index.html"
         );
