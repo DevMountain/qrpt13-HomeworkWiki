@@ -1,4 +1,3 @@
-//This is importing everything we need from selenium
 import {
     Builder,
     By,
@@ -12,7 +11,6 @@ import {
 const chromedriver = require("chromedriver");
 
 const driver: WebDriver = new Builder()
-//This builds chrome for our tests
     .withCapabilities(Capabilities.chrome())
     .build();
 const bernice: By = By.name("employee1");
@@ -29,7 +27,6 @@ const errorCard: By = By.css(".errorCard");
 describe("Employee Manager 1.2", () => {
 
     beforeEach(async () => {
-        //?what is a beforeEach loop?
         await driver.get(
         "https://devmountain-qa.github.io/employee-manager/1.2_Version/index.html"
         );
@@ -64,11 +61,12 @@ describe("Employee Manager 1.2", () => {
         await driver.wait(
             until.elementTextContains(
             await driver.findElement(nameDisplay),
-            //? why name display instead of name input?
             "Bernice"
             )
         );
-      
+        expect(
+            await (await driver.findElement(nameInput)).getAttribute("")
+        ).toBe("");
         });
 
         test("A canceled change doesn't persist", async () => {
@@ -85,9 +83,10 @@ describe("Employee Manager 1.2", () => {
             );
             await driver.findElement(nameInput).clear();
             await driver.findElement(nameInput).sendKeys("Test Name");
-            await driver.findElement(cancelButton).click(); 
-            // idk what to put for getAttribute - ask Mars! 
-         
+            await driver.findElement(cancelButton).click();
+            expect(
+                await (await driver.findElement(nameInput)).getAttribute("")
+            ).toBe("");
         });
 
         test("A saved change persists", async () => {
@@ -108,10 +107,16 @@ describe("Employee Manager 1.2", () => {
             await driver.findElement(nameInput).sendKeys("Test Name");
             await driver.findElement(saveButton).click();
             await driver.findElement(phillip).click();
-         
+            await driver.wait(
+                until.elementTextContains(
+                await driver.findElement(nameDisplay),
+                "Phillip"
+                )
+            );
             await driver.findElement(bernice).click();
-            // so getAttribute needs to be "value"? what exactly is this below - ask Mars
-          
+            expect(
+                await (await driver.findElement(nameInput)).getAttribute("value")
+            ).toBe("Test Name");
     });
 });
 
